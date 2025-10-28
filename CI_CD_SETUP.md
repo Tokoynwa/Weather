@@ -19,10 +19,10 @@ Code Push → GitHub → GitHub Actions → Build Docker Image → Push to GHCR 
   - Pushes to GitHub Container Registry (ghcr.io)
   - Tags: `latest`, `main-<sha>`, branch names
 
-### 2. GitHub Container Registry (GHCR)
-- **Registry**: `ghcr.io`
-- **Image**: `ghcr.io/tokoynwa/cloudvibes-weather:latest`
-- **Authentication**: Automatic via `GITHUB_TOKEN`
+### 2. Docker Hub Registry
+- **Registry**: Docker Hub
+- **Image**: `tokoynwa/cloudvibes-weather:latest`
+- **Authentication**: Via `DOCKERHUB_TOKEN` secret
 
 ### 3. ArgoCD (CD)
 - **File**: `argocd/application.yaml`
@@ -38,45 +38,32 @@ Code Push → GitHub → GitHub Actions → Build Docker Image → Push to GHCR 
 
 ## Setup Instructions
 
-### Step 1: Push Code to GitHub
+### Step 1: Create Docker Hub Access Token
+1. Go to https://hub.docker.com/settings/security
+2. Click "New Access Token"
+3. Name it: `github-actions`
+4. Copy the token (you'll need it in Step 2)
+
+### Step 2: Add Docker Hub Token to GitHub Secrets
+1. Go to https://github.com/Tokoynwa/Weather/settings/secrets/actions
+2. Click "New repository secret"
+3. Name: `DOCKERHUB_TOKEN`
+4. Value: Paste your Docker Hub access token
+5. Click "Add secret"
+
+### Step 3: Push Code to GitHub
 ```bash
 git add .
 git commit -m "Add CI/CD pipeline"
 git push origin main
 ```
 
-### Step 2: Verify GitHub Actions
+### Step 4: Verify GitHub Actions
 1. Go to https://github.com/Tokoynwa/Weather/actions
 2. Watch the workflow build and push the Docker image
-3. Verify image at https://github.com/Tokoynwa/Weather/pkgs/container/cloudvibes-weather
+3. Verify image at https://hub.docker.com/r/tokoynwa/cloudvibes-weather
 
-### Step 3: Make Repository Public (or Configure Image Pull Secret)
-
-**Option A: Make Container Image Public (Recommended for public projects)**
-1. Go to https://github.com/users/Tokoynwa/packages/container/cloudvibes-weather/settings
-2. Scroll to "Danger Zone"
-3. Click "Change visibility" → Select "Public"
-
-**Option B: Create Image Pull Secret (For private repositories)**
-```bash
-# Create GitHub Personal Access Token with read:packages scope
-# Then create secret in Kubernetes:
-kubectl create secret docker-registry ghcr-secret \
-  --docker-server=ghcr.io \
-  --docker-username=Tokoynwa \
-  --docker-password=<YOUR_PAT> \
-  --docker-email=<YOUR_EMAIL> \
-  -n cloudvibes
-
-# Update deployment.yaml to use the secret:
-# spec:
-#   template:
-#     spec:
-#       imagePullSecrets:
-#       - name: ghcr-secret
-```
-
-### Step 4: Deploy ArgoCD Application
+### Step 5: Deploy ArgoCD Application
 ```bash
 # Apply ArgoCD application
 kubectl apply -f argocd/application.yaml
@@ -88,7 +75,7 @@ kubectl get applications -n argocd
 kubectl get pods -n cloudvibes -w
 ```
 
-### Step 5: Verify Deployment
+### Step 6: Verify Deployment
 ```bash
 # Check pods
 kubectl get pods -n cloudvibes
@@ -157,8 +144,8 @@ kubectl describe deployment cloudvibes-weather -n cloudvibes | grep Image
 
 ### Image Pull Errors
 If you see `ImagePullBackOff`:
-1. Verify image exists: `docker pull ghcr.io/tokoynwa/cloudvibes-weather:latest`
-2. Check if image is public or add imagePullSecret
+1. Verify image exists: `docker pull tokoynwa/cloudvibes-weather:latest`
+2. Check if image is public on Docker Hub
 3. Verify image name in deployment.yaml matches exactly
 
 ### ArgoCD Not Syncing
@@ -197,7 +184,7 @@ Current: Using `latest` tag (simple, auto-updates)
 **For production, consider**:
 ```yaml
 # deployment.yaml
-image: ghcr.io/tokoynwa/cloudvibes-weather:v1.0.0
+image: tokoynwa/cloudvibes-weather:v1.0.0
 
 # Update workflow to create version tags:
 # git tag v1.0.0
