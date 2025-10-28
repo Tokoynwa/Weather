@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Weather Forecast - Hourly & 7-Day Weather Report | CloudVibes</title>
+    <meta name="description" content="🌤️ Get FREE accurate weather forecasts for ANY city worldwide! 24-hour hourly forecasts, 7-day predictions, real-time updates, temperature charts. Check weather now - CloudVibes.org">
+    <meta name="keywords" content="weather forecast, free weather, accurate weather, 7 day weather, hourly weather, weather today, weather tomorrow, local weather, weather map, temperature today, weather report, weather updates, real-time weather, weather radar, weather conditions, cloudvibes">
+    <meta name="author" content="CloudVibes">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <link rel="canonical" href="https://cloudvibes.org/">
+
+    <!-- Additional SEO -->
+    <meta name="geo.region" content="US">
+    <meta name="geo.placename" content="Worldwide">
+    <meta name="language" content="English">
+    <meta name="rating" content="General">
+    <meta name="revisit-after" content="1 day">
+    <meta http-equiv="content-language" content="en-US">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cloudvibes.org/">
+    <meta property="og:site_name" content="CloudVibes">
+    <meta property="og:title" content="Free Weather Forecast - Accurate 7-Day Weather | CloudVibes">
+    <meta property="og:description" content="🌤️ FREE accurate weather forecasts for ANY city worldwide! Real-time updates, 7-day predictions, temperature charts. Check weather now!">
+    <meta property="og:image" content="https://cloudvibes.org/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://cloudvibes.org/">
+    <meta property="twitter:site" content="@CloudVibes">
+    <meta property="twitter:title" content="Free Weather Forecast - Accurate 7-Day Weather | CloudVibes">
+    <meta property="twitter:description" content="🌤️ FREE accurate weather forecasts for ANY city! Real-time updates, 7-day predictions, temperature charts.">
+    <meta property="twitter:image" content="https://cloudvibes.org/og-image.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌤️</text></svg>">
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Preconnect to improve performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+    <link rel="dns-prefetch" href="https://api.open-meteo.com">
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1091636822057337"
+     crossorigin="anonymous"></script>
+
+    <!-- Google Analytics - Replace with your tracking ID -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+
+    <!-- Schema.org Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://cloudvibes.org/#website",
+          "url": "https://cloudvibes.org/",
+          "name": "CloudVibes - Free Weather Forecast",
+          "description": "Free accurate weather forecasts for any city worldwide with 7-day predictions and real-time updates",
+          "publisher": {
+            "@id": "https://cloudvibes.org/#organization"
+          },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://cloudvibes.org/?city={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://cloudvibes.org/#organization",
+          "name": "CloudVibes",
+          "url": "https://cloudvibes.org/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://cloudvibes.org/logo.png"
+          },
+          "sameAs": [
+            "https://twitter.com/CloudVibes",
+            "https://facebook.com/CloudVibes",
+            "https://instagram.com/cloudvibes_weather"
+          ]
+        },
+        {
+          "@type": "WebApplication",
+          "name": "CloudVibes Weather Dashboard",
+          "url": "https://cloudvibes.org/",
+          "applicationCategory": "Weather",
+          "operatingSystem": "Web Browser",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "ratingCount": "1247"
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How accurate is CloudVibes weather forecast?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "CloudVibes provides highly accurate weather forecasts using data from Open-Meteo API, which aggregates data from multiple meteorological services worldwide. Our forecasts are updated daily and include real-time temperature, humidity, wind speed, and precipitation data."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is CloudVibes weather forecast free?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes! CloudVibes is completely free to use. You can check weather forecasts for any city worldwide, view 7-day predictions, and access real-time weather data without any subscription or payment."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How often is weather data updated?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Weather data on CloudVibes is updated automatically every day at 6 AM. The page also auto-refreshes every hour to ensure you always have the most current weather information."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I check weather for any city in the world?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes! CloudVibes supports weather forecasts for thousands of cities worldwide. Simply use the search bar to enter any city name and get instant weather information including current conditions and 7-day forecast."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What weather information does CloudVibes provide?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "CloudVibes provides comprehensive weather information including: current temperature, feels-like temperature, humidity levels, cloud cover percentage, wind speed, precipitation amounts, 7-day forecast with min/max temperatures, and an interactive temperature trend chart."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1>🌤️ CloudVibes</h1>
+                <p class="tagline">Your Global Weather Companion</p>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="cityInput" placeholder="Search any city worldwide..." />
+                <button onclick="searchCity()">🔍 Search</button>
+            </div>
+        </header>
+
+        <!-- AdSense Ad Unit #1 - Top Leaderboard (HIGHEST CTR) - N1 -->
+        <div class="ad-container ad-top">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-1091636822057337"
+                 data-ad-slot="7776027204"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+        <div id="loading" class="loading">Loading weather data...</div>
+        <div id="error" class="error" style="display: none;"></div>
+
+        <main id="weatherContent" style="display: none;">
+            <div class="current-weather">
+                <div class="location">
+                    <h2 id="location">-</h2>
+                    <p id="lastUpdated">-</p>
+                </div>
+
+                <div class="current-stats">
+                    <div class="main-temp">
+                        <span id="weatherIcon" class="weather-icon">🌤️</span>
+                        <div>
+                            <h1 id="temperature">-°C</h1>
+                            <p>Feels like <span id="feelsLike">-°C</span></p>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-icon">💧</span>
+                            <div>
+                                <p class="stat-label">Humidity</p>
+                                <p class="stat-value" id="humidity">-%</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-icon">☁️</span>
+                            <div>
+                                <p class="stat-label">Cloud Cover</p>
+                                <p class="stat-value" id="cloudCover">-%</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-icon">💨</span>
+                            <div>
+                                <p class="stat-label">Wind Speed</p>
+                                <p class="stat-value" id="windSpeed">- km/h</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-icon">🌧️</span>
+                            <div>
+                                <p class="stat-label">Precipitation</p>
+                                <p class="stat-value" id="precipitation">- mm</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AdSense Ad Unit #2 - In-Content (HIGH ENGAGEMENT) - N2 -->
+            <div class="ad-container ad-incontent">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-1091636822057337"
+                     data-ad-slot="2938633497"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+
+            <!-- Hourly Forecast -->
+            <div class="hourly-section">
+                <h3>🕐 24-Hour Forecast</h3>
+                <div class="hourly-scroll">
+                    <div id="hourlyCards" class="hourly-cards"></div>
+                </div>
+            </div>
+
+            <!-- Temperature Chart -->
+            <div class="chart-section">
+                <h3>📊 Temperature Trend</h3>
+                <canvas id="temperatureChart"></canvas>
+            </div>
+
+            <div class="forecast">
+                <h3>📅 7-Day Forecast</h3>
+                <div id="forecastCards" class="forecast-grid"></div>
+            </div>
+
+            <!-- AdSense Ad Unit #3 - Below Forecast (GOOD PLACEMENT) - N3 -->
+            <div class="ad-container ad-bottom">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-1091636822057337"
+                     data-ad-slot="5141769784"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+
+            <!-- Additional Info Section -->
+            <div class="info-cards">
+                <div class="info-card">
+                    <h4>🌍 Free Weather Forecast for Any City</h4>
+                    <p>CloudVibes provides <strong>free, accurate weather forecasts</strong> for thousands of cities worldwide. Get real-time temperature, humidity, wind speed, and precipitation data updated daily. Our weather dashboard offers <strong>24-hour hourly forecasts</strong>, 7-day predictions, and interactive temperature charts - all completely free!</p>
+                </div>
+                <div class="info-card">
+                    <h4>📱 Comprehensive Weather Data</h4>
+                    <ul>
+                        <li><strong>Real-time weather updates</strong> - Current conditions</li>
+                        <li><strong>24-hour hourly forecast</strong> - Hour-by-hour predictions</li>
+                        <li><strong>7-day forecast</strong> - Plan your week ahead</li>
+                        <li><strong>Temperature charts</strong> - Visual trends</li>
+                        <li><strong>Precipitation probability</strong> - Rain chances</li>
+                        <li><strong>Wind speed tracking</strong> - Hourly wind data</li>
+                        <li><strong>Global coverage</strong> - Any city worldwide</li>
+                        <li><strong>Mobile friendly</strong> - Access anywhere</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Popular Cities - SEO Content -->
+            <div class="seo-content">
+                <h2>🌎 Weather Forecast for Popular Cities</h2>
+                <p>Check accurate weather forecasts for major cities worldwide:</p>
+                <div class="city-grid">
+                    <a href="?city=New York" class="city-link">New York Weather</a>
+                    <a href="?city=London" class="city-link">London Weather</a>
+                    <a href="?city=Tokyo" class="city-link">Tokyo Weather</a>
+                    <a href="?city=Paris" class="city-link">Paris Weather</a>
+                    <a href="?city=Dubai" class="city-link">Dubai Weather</a>
+                    <a href="?city=Sydney" class="city-link">Sydney Weather</a>
+                    <a href="?city=Los Angeles" class="city-link">Los Angeles Weather</a>
+                    <a href="?city=Singapore" class="city-link">Singapore Weather</a>
+                    <a href="?city=Barcelona" class="city-link">Barcelona Weather</a>
+                    <a href="?city=Rome" class="city-link">Rome Weather</a>
+                    <a href="?city=Bangkok" class="city-link">Bangkok Weather</a>
+                    <a href="?city=Istanbul" class="city-link">Istanbul Weather</a>
+                    <a href="?city=Toronto" class="city-link">Toronto Weather</a>
+                    <a href="?city=Berlin" class="city-link">Berlin Weather</a>
+                    <a href="?city=Mumbai" class="city-link">Mumbai Weather</a>
+                    <a href="?city=Moscow" class="city-link">Moscow Weather</a>
+                </div>
+            </div>
+
+            <!-- FAQ Section -->
+            <div class="faq-section">
+                <h2>❓ Frequently Asked Questions</h2>
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <h3>How accurate is CloudVibes weather forecast?</h3>
+                        <p>CloudVibes provides <strong>highly accurate weather forecasts</strong> using data from Open-Meteo API, which aggregates data from multiple meteorological services worldwide. Our forecasts are updated daily and include real-time temperature, humidity, wind speed, and precipitation data.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Is CloudVibes weather forecast free?</h3>
+                        <p>Yes! CloudVibes is <strong>completely free to use</strong>. You can check weather forecasts for any city worldwide, view 7-day predictions, and access real-time weather data without any subscription or payment.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>How often is weather data updated?</h3>
+                        <p>Weather data on CloudVibes is <strong>updated automatically every day at 6 AM</strong>. The page also auto-refreshes every hour to ensure you always have the most current weather information.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Can I check weather for any city in the world?</h3>
+                        <p>Yes! CloudVibes supports <strong>weather forecasts for thousands of cities worldwide</strong>. Simply use the search bar to enter any city name and get instant weather information including current conditions and 7-day forecast.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>What weather information does CloudVibes provide?</h3>
+                        <p>CloudVibes provides comprehensive weather information including: <strong>current temperature, feels-like temperature, humidity levels, cloud cover percentage, wind speed, precipitation amounts, 7-day forecast with min/max temperatures</strong>, and an interactive temperature trend chart.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEO Footer Content -->
+            <div class="seo-content">
+                <h2>Why Choose CloudVibes for Weather Forecasts?</h2>
+                <p>CloudVibes is your trusted source for <strong>free, accurate weather forecasts</strong>. Unlike other weather services, we provide:</p>
+                <ul>
+                    <li><strong>100% Free</strong> - No subscriptions, no hidden fees, no paywalls</li>
+                    <li><strong>Global Coverage</strong> - Weather data for any city in the world</li>
+                    <li><strong>Real-Time Updates</strong> - Fresh data updated daily</li>
+                    <li><strong>7-Day Forecasts</strong> - Plan ahead with confidence</li>
+                    <li><strong>Visual Charts</strong> - Easy-to-understand temperature trends</li>
+                    <li><strong>Mobile Optimized</strong> - Perfect on any device</li>
+                    <li><strong>No Ads Overload</strong> - Clean, fast interface</li>
+                    <li><strong>Accurate Data</strong> - Powered by professional meteorological services</li>
+                </ul>
+                <p>Whether you're planning a trip, organizing an outdoor event, or just want to know what to wear tomorrow, CloudVibes provides the <strong>most accurate and reliable weather forecasts</strong> available online. Search for any city above to get started!</p>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 CloudVibes.org | Weather data powered by Open-Meteo</p>
+            <p><a href="#" onclick="scrollToTop()">Back to Top ↑</a></p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

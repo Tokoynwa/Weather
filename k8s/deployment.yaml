@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudvibes-weather
+  labels:
+    app: cloudvibes-weather
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cloudvibes-weather
+  template:
+    metadata:
+      labels:
+        app: cloudvibes-weather
+    spec:
+      containers:
+      - name: weather-app
+        image: YOUR_DOCKERHUB_USERNAME/cloudvibes-weather:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: PORT
+          value: "3000"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 5
