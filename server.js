@@ -12,6 +12,20 @@ let weatherCache = {};
 // Serve static files
 app.use(express.static('public'));
 
+// Health check endpoints for Kubernetes
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'healthy', timestamp: new Date().toISOString() });
+});
+
+app.get('/ready', (req, res) => {
+  // Check if weather cache is populated
+  if (Object.keys(weatherCache).length > 0) {
+    res.status(200).json({ status: 'ready', timestamp: new Date().toISOString() });
+  } else {
+    res.status(503).json({ status: 'not ready', message: 'Weather data not yet loaded' });
+  }
+});
+
 // Explicitly serve ads.txt for AdSense
 app.get('/ads.txt', (req, res) => {
   res.type('text/plain');
