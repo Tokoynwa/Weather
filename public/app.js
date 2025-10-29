@@ -145,10 +145,13 @@ function displayHourlyForecast(hourlyData) {
 
 function drawTemperatureChart(dailyData) {
     const canvas = document.getElementById('temperatureChart');
+    if (!canvas) return;
+
     const ctx = canvas.getContext('2d');
 
-    // Set canvas size
-    canvas.width = canvas.offsetWidth;
+    // Set canvas size with proper scaling
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width || 800;
     canvas.height = 300;
 
     const width = canvas.width;
