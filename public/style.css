@@ -352,7 +352,11 @@ header h1 {
 
 #temperatureChart {
     width: 100%;
+    height: 300px;
     max-height: 300px;
+    display: block;
+    background: #f9f9f9;
+    border-radius: 10px;
 }
 
 .info-cards {

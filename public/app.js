@@ -149,17 +149,20 @@ function drawTemperatureChart(dailyData) {
 
     const ctx = canvas.getContext('2d');
 
-    // Set canvas size with proper scaling
-    const rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width || 800;
-    canvas.height = 300;
+    // Wait for the canvas to have proper dimensions
+    setTimeout(() => {
+        // Set canvas size with proper scaling
+        const rect = canvas.getBoundingClientRect();
+        const width = rect.width || canvas.parentElement.offsetWidth || 800;
+        const height = 300;
 
-    const width = canvas.width;
-    const height = canvas.height;
-    const padding = 50;
+        canvas.width = width;
+        canvas.height = height;
 
-    // Clear canvas
-    ctx.clearRect(0, 0, width, height);
+        const padding = 50;
+
+        // Clear canvas
+        ctx.clearRect(0, 0, width, height);
 
     // Prepare data
     const maxTemps = dailyData.maxTemp.slice(0, 7);
@@ -255,6 +258,7 @@ function drawTemperatureChart(dailyData) {
     ctx.fillRect(width - 150, 40, 20, 3);
     ctx.fillStyle = '#333';
     ctx.fillText('Min Temp', width - 125, 45);
+    }, 100); // Delay to ensure canvas has proper dimensions
 }
 
 function scrollToTop() {
