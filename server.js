@@ -6,14 +6,22 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// In-memory cache for weather data
-let weatherCache = {};
+// In-memory cache for weather data (per city)
+let weatherCache = {
+  // Structure: { 'CityName': { data: {...}, timestamp: Date, ttl: 3600000 } }
+};
 
-// Serve static files
-app.use(express.static('public'));
+// Serve static files with caching
+app.use(express.static('public', {
+  maxAge: '1d', // Cache static files for 1 day
+  etag: true,
+  lastModified: true
+}));
 
 // Serve index.html for all /weather/* routes (for SEO-friendly city pages)
 app.get('/weather/:city', (req, res) => {
+  // Set cache headers for city pages
+  res.set('Cache-Control', 'public, max-age=3600'); // 1 hour cache
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
@@ -23,9 +31,14 @@ app.get('/health', (req, res) => {
 });
 
 app.get('/ready', (req, res) => {
-  // Check if weather cache is populated
-  if (Object.keys(weatherCache).length > 0) {
-    res.status(200).json({ status: 'ready', timestamp: new Date().toISOString() });
+  // Check if weather cache has at least one city
+  const cachedCities = Object.keys(weatherCache).length;
+  if (cachedCities > 0) {
+    res.status(200).json({
+      status: 'ready',
+      timestamp: new Date().toISOString(),
+      cachedCities: cachedCities
+    });
   } else {
     res.status(503).json({ status: 'not ready', message: 'Weather data not yet loaded' });
   }
@@ -56,7 +69,7 @@ async function fetchWeatherData(city = 'Tbilisi') {
 
     const data = weatherResponse.data;
 
-    weatherCache = {
+    const weatherData = {
       location: `${name}, ${country}`,
       coordinates: { latitude, longitude },
       current: {
@@ -86,8 +99,15 @@ async function fetchWeatherData(city = 'Tbilisi') {
       lastUpdated: new Date().toISOString()
     };
 
-    console.log(`Weather data updated at ${weatherCache.lastUpdated}`);
-    return weatherCache;
+    // Cache per city with 1-hour TTL
+    weatherCache[city.toLowerCase()] = {
+      data: weatherData,
+      timestamp: Date.now(),
+      ttl: 3600000 // 1 hour
+    };
+
+    console.log(`Weather data cached for ${city} at ${weatherData.lastUpdated}`);
+    return weatherData;
   } catch (error) {
     console.error('Error fetching weather data:', error.message);
     throw error;
@@ -98,13 +118,21 @@ async function fetchWeatherData(city = 'Tbilisi') {
 app.get('/api/weather', async (req, res) => {
   try {
     const city = req.query.city || 'Tbilisi';
+    const cacheKey = city.toLowerCase();
 
-    // If cache is empty or city is different, fetch new data
-    if (Object.keys(weatherCache).length === 0 || req.query.city) {
-      await fetchWeatherData(city);
+    // Check if we have cached data that's still valid
+    const cached = weatherCache[cacheKey];
+    const now = Date.now();
+
+    if (cached && (now - cached.timestamp) < cached.ttl) {
+      // Return cached data
+      console.log(`Serving cached data for ${city}`);
+      return res.json(cached.data);
     }
 
-    res.json(weatherCache);
+    // Fetch fresh data if cache miss or expired
+    const weatherData = await fetchWeatherData(city);
+    res.json(weatherData);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
