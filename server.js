@@ -12,6 +12,11 @@ let weatherCache = {};
 // Serve static files
 app.use(express.static('public'));
 
+// Serve index.html for all /weather/* routes (for SEO-friendly city pages)
+app.get('/weather/:city', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 // Health check endpoints for Kubernetes
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'healthy', timestamp: new Date().toISOString() });
