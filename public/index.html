@@ -47,14 +47,26 @@
     <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
     <link rel="dns-prefetch" href="https://api.open-meteo.com">
 
+    <!-- Google Consent Mode v2 -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+
+      // Default consent to denied
+      gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'analytics_storage': 'denied'
+      });
+    </script>
+
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1091636822057337"
      crossorigin="anonymous"></script>
 
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VS3345ERH3"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-VS3345ERH3');
     </script>
@@ -379,6 +391,44 @@
         </footer>
     </div>
 
+    <!-- Cookie Consent Banner -->
+    <div id="cookieConsent" class="cookie-consent">
+        <div class="cookie-content">
+            <div class="cookie-text">
+                <h3>🍪 We Value Your Privacy</h3>
+                <p>We use cookies to improve your experience and analyze site traffic. You can choose which cookies to accept.</p>
+            </div>
+            <div class="cookie-buttons">
+                <button onclick="acceptAllCookies()" class="cookie-btn accept-all">Accept All</button>
+                <button onclick="acceptNecessaryCookies()" class="cookie-btn necessary-only">Necessary Only</button>
+                <button onclick="toggleCookieSettings()" class="cookie-btn settings">Settings</button>
+            </div>
+        </div>
+        <div id="cookieSettings" class="cookie-settings" style="display: none;">
+            <div class="cookie-option">
+                <label>
+                    <input type="checkbox" checked disabled> <strong>Necessary Cookies</strong>
+                    <span class="cookie-desc">Required for the site to function</span>
+                </label>
+            </div>
+            <div class="cookie-option">
+                <label>
+                    <input type="checkbox" id="analyticsCookies" checked> <strong>Analytics Cookies</strong>
+                    <span class="cookie-desc">Help us understand how you use our site</span>
+                </label>
+            </div>
+            <div class="cookie-option">
+                <label>
+                    <input type="checkbox" id="adCookies" checked> <strong>Advertising Cookies</strong>
+                    <span class="cookie-desc">Used to show relevant ads</span>
+                </label>
+            </div>
+            <button onclick="saveCustomCookies()" class="cookie-btn save-custom">Save Preferences</button>
+        </div>
+    </div>
+
+    <script src="cities.js"></script>
     <script src="app.js"></script>
+    <script src="consent.js"></script>
 </body>
 </html>
