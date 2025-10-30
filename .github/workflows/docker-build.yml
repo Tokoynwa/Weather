@@ -15,7 +15,7 @@ on:
 env:
   DOCKERHUB_USERNAME: tokoynwa
   IMAGE_NAME: cloudvibes-weather
-  VERSION: v1.0.1
+  VERSION: v1.0.2
 
 jobs:
   build-and-push:

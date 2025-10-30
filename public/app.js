@@ -282,10 +282,32 @@ document.getElementById('cityInput')?.addEventListener('keypress', (e) => {
     }
 });
 
-// Check for city in URL parameters
+// Check for city in URL parameters or path
 function getCityFromURL() {
+    // Check URL path for /weather/city-name or /?city=cityname
+    const path = window.location.pathname;
     const urlParams = new URLSearchParams(window.location.search);
+
+    // Try path routing first: /weather/new-york
+    if (path.startsWith('/weather/') && path.length > 9) {
+        const slug = path.replace('/weather/', '').replace(/\/$/, '');
+        // Convert slug to city name (new-york -> New York)
+        return slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+    }
+
+    // Fallback to query parameter: ?city=New York
     return urlParams.get('city');
+}
+
+// Update page meta tags for SEO
+function updatePageMeta(city) {
+    if (city && city !== 'Tbilisi') {
+        document.title = `Weather in ${city} - 7 Day Forecast | CloudVibes`;
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) {
+            metaDesc.content = `Get accurate weather forecast for ${city}. 7-day predictions, hourly updates, temperature, humidity, and precipitation. Free real-time weather data.`;
+        }
+    }
 }
 
 // Load weather on page load
@@ -293,6 +315,7 @@ const initialCity = getCityFromURL();
 if (initialCity) {
     document.getElementById('cityInput').value = initialCity;
     loadWeather(initialCity);
+    updatePageMeta(initialCity);
 } else {
     loadWeather();
 }
