@@ -29,6 +29,12 @@ app.get('/weather/:city', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// Widget demo page
+app.get('/widgets', (req, res) => {
+  res.set('Cache-Control', 'public, max-age=3600');
+  res.sendFile(path.join(__dirname, 'public', 'widgets.html'));
+});
+
 // Health check endpoints for Kubernetes
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'healthy', timestamp: new Date().toISOString() });

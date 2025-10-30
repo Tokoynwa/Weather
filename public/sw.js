@@ -1,5 +1,5 @@
 // Service Worker for CloudVibes - Offline Support & Caching
-const CACHE_NAME = 'cloudvibes-v1.0.4';
+const CACHE_NAME = 'cloudvibes-v1.0.6';
 const RUNTIME_CACHE = 'cloudvibes-runtime';
 
 // Files to cache immediately
@@ -9,7 +9,8 @@ const PRECACHE_URLS = [
   '/app.js',
   '/cities.js',
   '/consent.js',
-  '/manifest.json'
+  '/manifest.json',
+  '/widget.js'
 ];
 
 // Install event - cache essential files
