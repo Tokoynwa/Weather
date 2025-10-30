@@ -40,6 +40,18 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌤️</text></svg>">
 
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="CloudVibes">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/style.css" as="style">
+    <link rel="preload" href="/app.js" as="script">
+    <link rel="preconnect" href="https://api.open-meteo.com" crossorigin>
+
     <link rel="stylesheet" href="style.css">
 
     <!-- Preconnect to improve performance -->
@@ -192,7 +204,8 @@
                  data-ad-client="ca-pub-1091636822057337"
                  data-ad-slot="7776027204"
                  data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
+                 data-full-width-responsive="true"
+                 loading="lazy"></ins>
             <script>
                  (adsbygoogle = window.adsbygoogle || []).push({});
             </script>
@@ -430,5 +443,16 @@
     <script src="cities.js"></script>
     <script src="app.js"></script>
     <script src="consent.js"></script>
+
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('✅ Service Worker registered'))
+            .catch(err => console.log('❌ Service Worker registration failed', err));
+        });
+      }
+    </script>
 </body>
 </html>

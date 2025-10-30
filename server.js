@@ -2,9 +2,13 @@ const express = require('express');
 const axios = require('axios');
 const cron = require('node-cron');
 const path = require('path');
+const compression = require('compression');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Enable gzip compression for all responses
+app.use(compression());
 
 // In-memory cache for weather data (per city)
 let weatherCache = {

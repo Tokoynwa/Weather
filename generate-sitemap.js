@@ -1,30 +1,60 @@
+// Generate sitemap.xml with all cities
 const fs = require('fs');
 
 const cities = [
-    'new-york', 'los-angeles', 'chicago', 'houston', 'phoenix', 'philadelphia', 'san-antonio', 'san-diego', 'dallas', 'san-jose',
-    'austin', 'jacksonville', 'fort-worth', 'columbus', 'san-francisco', 'charlotte', 'indianapolis', 'seattle', 'denver', 'washington-dc',
-    'boston', 'nashville', 'las-vegas', 'portland', 'miami', 'london', 'paris', 'berlin', 'madrid', 'rome',
-    'barcelona', 'amsterdam', 'vienna', 'prague', 'budapest', 'warsaw', 'brussels', 'stockholm', 'copenhagen', 'oslo',
-    'helsinki', 'lisbon', 'athens', 'dublin', 'edinburgh', 'tokyo', 'beijing', 'shanghai', 'hong-kong', 'singapore',
-    'seoul', 'bangkok', 'dubai', 'mumbai', 'delhi', 'bangalore', 'kuala-lumpur', 'manila', 'jakarta', 'taipei',
-    'sydney', 'melbourne', 'brisbane', 'perth', 'auckland', 'toronto', 'montreal', 'vancouver', 'calgary', 'ottawa',
-    'mexico-city', 'buenos-aires', 'sao-paulo', 'rio-de-janeiro', 'lima', 'bogota', 'santiago', 'istanbul', 'cairo', 'tel-aviv',
-    'johannesburg', 'cape-town', 'nairobi', 'tbilisi', 'batumi', 'moscow', 'saint-petersburg'
+    { slug: 'new-york' }, { slug: 'los-angeles' }, { slug: 'chicago' }, { slug: 'houston' },
+    { slug: 'phoenix' }, { slug: 'philadelphia' }, { slug: 'san-antonio' }, { slug: 'san-diego' },
+    { slug: 'dallas' }, { slug: 'san-jose' }, { slug: 'austin' }, { slug: 'jacksonville' },
+    { slug: 'fort-worth' }, { slug: 'columbus' }, { slug: 'san-francisco' }, { slug: 'charlotte' },
+    { slug: 'indianapolis' }, { slug: 'seattle' }, { slug: 'denver' }, { slug: 'washington-dc' },
+    { slug: 'boston' }, { slug: 'nashville' }, { slug: 'las-vegas' }, { slug: 'portland' },
+    { slug: 'miami' }, { slug: 'london' }, { slug: 'paris' }, { slug: 'berlin' },
+    { slug: 'madrid' }, { slug: 'rome' }, { slug: 'barcelona' }, { slug: 'amsterdam' },
+    { slug: 'vienna' }, { slug: 'prague' }, { slug: 'budapest' }, { slug: 'warsaw' },
+    { slug: 'brussels' }, { slug: 'stockholm' }, { slug: 'copenhagen' }, { slug: 'oslo' },
+    { slug: 'helsinki' }, { slug: 'lisbon' }, { slug: 'athens' }, { slug: 'dublin' },
+    { slug: 'edinburgh' }, { slug: 'tokyo' }, { slug: 'beijing' }, { slug: 'shanghai' },
+    { slug: 'hong-kong' }, { slug: 'singapore' }, { slug: 'seoul' }, { slug: 'bangkok' },
+    { slug: 'dubai' }, { slug: 'mumbai' }, { slug: 'delhi' }, { slug: 'bangalore' },
+    { slug: 'kuala-lumpur' }, { slug: 'manila' }, { slug: 'jakarta' }, { slug: 'taipei' },
+    { slug: 'sydney' }, { slug: 'melbourne' }, { slug: 'brisbane' }, { slug: 'perth' },
+    { slug: 'auckland' }, { slug: 'toronto' }, { slug: 'montreal' }, { slug: 'vancouver' },
+    { slug: 'calgary' }, { slug: 'ottawa' }, { slug: 'mexico-city' }, { slug: 'buenos-aires' },
+    { slug: 'sao-paulo' }, { slug: 'rio-de-janeiro' }, { slug: 'lima' }, { slug: 'bogota' },
+    { slug: 'santiago' }, { slug: 'istanbul' }, { slug: 'cairo' }, { slug: 'tel-aviv' },
+    { slug: 'johannesburg' }, { slug: 'cape-town' }, { slug: 'nairobi' }, { slug: 'tbilisi' },
+    { slug: 'batumi' }, { slug: 'moscow' }, { slug: 'saint-petersburg' }
 ];
 
-const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+const baseURL = 'https://cloudvibes.org';
+const today = new Date().toISOString().split('T')[0];
+
+let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    <url>
-        <loc>https://cloudvibes.org/</loc>
-        <changefreq>daily</changefreq>
-        <priority>1.0</priority>
-    </url>
-${cities.map(city => `    <url>
-        <loc>https://cloudvibes.org/weather/${city}</loc>
-        <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-    </url>`).join('\n')}
-</urlset>`;
+  <url>
+    <loc>${baseURL}/</loc>
+    <changefreq>hourly</changefreq>
+    <priority>1.0</priority>
+    <lastmod>${today}</lastmod>
+  </url>
+`;
+
+// Add all cities with priority based on position
+cities.forEach((city, index) => {
+  let priority = 0.9;
+  if (index > 20) priority = 0.8;
+  if (index > 50) priority = 0.7;
+
+  sitemap += `  <url>
+    <loc>${baseURL}/weather/${city.slug}</loc>
+    <changefreq>daily</changefreq>
+    <priority>${priority}</priority>
+  </url>
+`;
+});
+
+sitemap += `</urlset>
+`;
 
 fs.writeFileSync('./public/sitemap.xml', sitemap);
-console.log('Sitemap generated with', cities.length + 1, 'URLs');
+console.log(`✅ Generated sitemap with ${cities.length + 1} URLs (1 homepage + ${cities.length} cities)`);
